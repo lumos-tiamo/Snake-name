@@ -32,4 +32,4 @@
 ## 在线游玩
 
 你可以直接访问以下链接来游玩：
-[点击这里开始游戏](https://你的GitHub用户名.github.io/snake-game/) 
+[点击这里开始游戏](https://lumos-tiamo.github.io/snake-game/) 
