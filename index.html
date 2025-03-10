@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>贪吃蛇游戏</title>
+    <title>可爱贪吃蛇</title>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
     <style>
         body {
             display: flex;
@@ -12,30 +13,163 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #FFD1DC, #FFC3A0, #FFE5D9);
+            font-family: 'ZCOOL KuaiLe', cursive;
+            overflow: hidden;
         }
+
+        .game-container {
+            position: relative;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
         canvas {
-            border: 2px solid #333;
-            background-color: #fff;
+            border: 4px solid #FF69B4;
+            border-radius: 15px;
+            background-color: #FFF5EE;
+            box-shadow: 0 5px 15px rgba(255,105,180,0.2);
         }
+
         .score {
-            font-size: 24px;
+            font-size: 32px;
             margin-bottom: 20px;
+            color: #FF1493;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: pulse 2s infinite;
         }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
         .controls {
             margin-top: 20px;
             text-align: center;
         }
+
+        .controls p {
+            font-size: 18px;
+            color: #FF69B4;
+            margin-bottom: 15px;
+        }
+
+        .button {
+            padding: 12px 25px;
+            margin: 0 10px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 25px;
+            font-family: 'ZCOOL KuaiLe', cursive;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.2), transparent);
+            transform: rotate(45deg);
+            transition: 0.5s;
+        }
+
+        .button:hover::after {
+            left: 100%;
+        }
+
+        .start-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .end-btn {
+            background: linear-gradient(45deg, #ff4757, #ff6b81);
+            color: white;
+        }
+
+        .restart-btn {
+            background: linear-gradient(45deg, #2196F3, #1e88e5);
+            color: white;
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .title {
+            font-size: 40px;
+            color: #FF1493;
+            text-shadow: 3px 3px 0 #FFB6C1;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .emoji {
+            font-size: 24px;
+            margin: 0 5px;
+        }
     </style>
 </head>
 <body>
-    <div class="score">分数: <span id="score">0</span></div>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
-    <div class="controls">
-        <p>使用方向键或 WASD 控制蛇的移动</p>
-        <button onclick="restartGame()">重新开始</button>
+    <h1 class="title">可爱贪吃蛇 <span class="emoji">🐍</span></h1>
+    <div class="game-container">
+        <div class="score">得分: <span id="score">0</span> <span class="emoji">⭐</span></div>
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <div class="controls">
+            <p>使用方向键 <span class="emoji">⬆️⬇️⬅️➡️</span> 或 WASD 控制小蛇</p>
+            <button id="startBtn" class="button start-btn" onclick="startGame()">开始游戏 🎮</button>
+            <button id="endBtn" class="button end-btn" onclick="endGame()" disabled>结束游戏 ⏹️</button>
+            <button id="restartBtn" class="button restart-btn" onclick="restartGame()" disabled>重新开始 🔄</button>
+        </div>
     </div>
     <script src="game.js"></script>
+    <script>
+        // 创建星星背景
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 1 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        createStars();
+    </script>
 </body>
 </html> 
